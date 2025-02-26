@@ -24,8 +24,6 @@ ASSET_ROOT_PATH = "./assets"
 class MotionViewer(object):
     def __init__(self, motion_path: str, physics_dt: float = 1.0/60.0, render_dt: float =1.0/60.0) -> None:
         """
-        Summary
-
         Argument:
         motion_path {str} -- Motion Path
         physics_dt {float} -- Physics downtime of the scene.
@@ -72,10 +70,18 @@ class MotionViewer(object):
         self.dof_body_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         self.dof_offsets = [0, 3, 6, 9, 12, 15, 18, 19, 20, 21, 22, 25, 28]
         
-        self.motion_lib, dt = self.load_motion(motion_path, self.key_body_ids)
-        print("Motion dt : ", dt)
+        self.motion_lib =  MotionLib(motion_file=motion_path, 
+                               num_dofs=self._robot.num_dof,
+                               key_body_ids=self.key_body_ids,
+                               dof_body_ids=self.dof_body_ids,
+                               dof_offsets=self.dof_offsets,
+                               device=self._device)
 
+        motion_dt = 1 / self.motion_lib._motion_fps
+        self.total_frames = int(self.motion_lib._motion_num_frames[0])
         self.motion_time = self.motion_lib.get_motion_length(motion_ids=[0])
+        print("Motion dt : ", motion_dt)
+        print("Motion Frames : ", self.total_frames)
         print("Motion Time : ", self.motion_time)
 
         render_dt = self._world.get_rendering_dt()
@@ -88,16 +94,6 @@ class MotionViewer(object):
             stage = get_current_stage()
             light = UsdLux.DistantLight.Define(stage, prim_path)
             light.CreateIntensityAttr().Set(intensity)
-
-    def load_motion(self, motion_file, key_body_ids):
-        motion_lib = MotionLib(motion_file=motion_file, 
-                               num_dofs=self._robot.num_dof,
-                               key_body_ids=key_body_ids.cpu().numpy(),
-                               dof_body_ids=self.dof_body_ids,
-                               dof_offsets=self.dof_offsets,
-                               device=self._device)
-        dt = 1 / motion_lib._motion_fps
-        return motion_lib, dt
     
     def setup(self) -> None:
         self._appwindow = omni.appwindow.get_default_app_window()
@@ -111,7 +107,8 @@ class MotionViewer(object):
             self._world.reset(True)
             self.needs_reset = False
         world_time_step = self._world.current_time_step_index
-        clipped_frame_count = world_time_step #% self.motion_time
+        #clipped_frame_count = world_time_step
+        clipped_frame_count = world_time_step % self.total_frames
         root_pos = self.motion_sync(torch.tensor([0]), clipped_frame_count, step_size)
         #self.camera._update_camera(root_pos[0])
         
@@ -185,10 +182,10 @@ class Camera(object):
 
 def main():
 
-    #sub_folder = "./motions"
-    #file_name = "amp_humanoid_jog.npy"
-    sub_folder = "./motions/amp_humanoid2/motions"
-    file_name = "amp_humanoid_dance.npy"
+    sub_folder = "./motions"
+    file_name = "amp_humanoid_jog.npy"
+    #file_name = "amp_humanoid_walk.npy"
+    #file_name = "amp_humanoid_run.npy"
     motion_path = os.path.join(ASSET_ROOT_PATH, sub_folder, file_name)
 
     runner = MotionViewer(motion_path, physics_dt=1.0/30., render_dt=1.0/120.0)
