@@ -4,8 +4,8 @@ import pathlib
 from tqdm import tqdm
 import numpy as np
 
-from amp_rlg.poselib.poselib.core.my_rotation3d import *
-from amp_rlg.poselib.poselib.skeleton.my_skeleton3d import SkeletonTree, SkeletonState, SkeletonMotion
+from source.amp_rlg.poselib.poselib.core.my_rotation3d import *
+from source.amp_rlg.poselib.poselib.skeleton.my_skeleton3d import SkeletonTree, SkeletonState, SkeletonMotion
 
 # from isaac gym motion to isaac sim motion for AMP family motions.
 # [x, y, z, w] -> [w, x, y, z], DFS -> BFS

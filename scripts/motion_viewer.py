@@ -17,7 +17,7 @@ import torch
 from pxr import Sdf, Gf, UsdLux
 import os
 
-from amp_rlg.utils.molib import MotionLib
+from source.amp_rlg.utils.molib import MotionLib
 
 ASSET_ROOT_PATH = "./assets"
 

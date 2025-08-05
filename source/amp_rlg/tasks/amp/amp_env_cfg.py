@@ -47,7 +47,7 @@ class AmpEnvCfg(DirectRLEnvCfg):
     state_init = "Hybrid" # Default, Random, Hybrid
     hybrid_init_prob = 1.0
     
-    rel_motion_root_path = "../../../assets/motions"
+    rel_motion_root_path = "../../../../assets/motions"
     motion_file = "amp_humanoid_run.npy"
 
     # simulation
@@ -56,7 +56,6 @@ class AmpEnvCfg(DirectRLEnvCfg):
         render_interval=decimation,
         use_fabric=True,
         enable_scene_query_support=False,
-        disable_contact_processing=False,
         gravity=(0.0, 0.0, -9.81),
         
         physics_material=RigidBodyMaterialCfg(

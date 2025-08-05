@@ -62,12 +62,12 @@ from isaaclab.utils.assets import retrieve_file_path
 from isaaclab.utils.dict import print_dict
 from isaaclab.utils.pretrained_checkpoint import get_published_pretrained_checkpoint
 
-import amp_rlg.tasks
-from amp_rlg.tasks.utils import get_checkpoint_path, load_cfg_from_registry, parse_env_cfg
-from amp_rlg.utils.rl_games import RlGamesGpuEnv, RlGamesVecEnvWrapper
+import source.amp_rlg.tasks
+from source.amp_rlg.tasks.utils import get_checkpoint_path, load_cfg_from_registry, parse_env_cfg
+from scripts.rl_games_wrapper import RlGamesGpuEnv, RlGamesVecEnvWrapper
 #from isaaclab_rl.rl_games import RlGamesGpuEnv, RlGamesVecEnvWrapper
-from amp_rlg.learning.ppo import ppo_models, ppo_network_builder, ppo_agent, ppo_players
-from amp_rlg.learning.amp import amp_models, amp_network_builder, amp_agent, amp_players
+from source.amp_rlg.learning.ppo import ppo_models, ppo_network_builder, ppo_agent, ppo_players
+from source.amp_rlg.learning.amp import amp_models, amp_network_builder, amp_agent, amp_players
 
 def main():
     """Play with RL-Games agent."""

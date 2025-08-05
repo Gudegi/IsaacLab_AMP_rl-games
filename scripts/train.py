@@ -67,11 +67,11 @@ from isaaclab.utils.assets import retrieve_file_path
 from isaaclab.utils.dict import print_dict
 from isaaclab.utils.io import dump_pickle, dump_yaml
 
-import amp_rlg.tasks  # noqa: F401
-from amp_rlg.tasks.utils.hydra import hydra_task_config
-from amp_rlg.utils.rl_games import RlGamesGpuEnv, RlGamesVecEnvWrapper
-from amp_rlg.learning.ppo import ppo_models, ppo_network_builder, ppo_agent, ppo_players
-from amp_rlg.learning.amp import amp_models, amp_network_builder, amp_agent, amp_players
+import source.amp_rlg.tasks  # noqa: F401
+from source.amp_rlg.tasks.utils.hydra import hydra_task_config
+from scripts.rl_games_wrapper import RlGamesGpuEnv, RlGamesVecEnvWrapper
+from source.amp_rlg.learning.ppo import ppo_models, ppo_network_builder, ppo_agent, ppo_players
+from source.amp_rlg.learning.amp import amp_models, amp_network_builder, amp_agent, amp_players
 
 @hydra_task_config(args_cli.task, "rl_games_cfg_entry_point")
 def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agent_cfg: dict):
